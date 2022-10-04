@@ -11,7 +11,11 @@ from App.controllers import (
     add_book, 
     get_all_books_json,
     get_all_book_by_title,
-    get_book_by_isbn
+    get_book_by_isbn,
+    get_book_by_Year,
+    get_all_books,
+    get_all_author_book_by_Year,
+    get_all_authors_json
     )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
