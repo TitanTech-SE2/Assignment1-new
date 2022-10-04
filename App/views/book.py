@@ -5,6 +5,7 @@ from flask_jwt import jwt_required
 from App.controllers import (
   add_book,
   get_all_books,
+  get_all_books_json,
   get_all_book_by_title,
   get_book_by_isbn,
   get_book_by_Year,
@@ -17,9 +18,9 @@ book_views = Blueprint('book_views', __name__, template_folder='../templates')
 
 @book_views.route('/books', methods=['GET'])
 def book_page():
-    books = get_all_books()
-    return json.dumps(books)
-
+    books = get_all_books_json()
+    return jsonify(books) #Jsonify might not work for some things, may have to import a new library called jsonpickle
+    
 @book_views.route('/api/books')
 def client_app():
     books = get_all_books()

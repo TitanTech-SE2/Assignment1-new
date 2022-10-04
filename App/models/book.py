@@ -6,12 +6,12 @@ class Book(db.Model):
     authorName = db.Column('authorName', db.String(120), nullable=False)
     publiYear = db.Column(db.Integer, nullable=False)
    
-    def toDict(self):
+    def toJSON(self):
         return{
             "isbn":self.isbn,
-            "title":self.title.toDict(),
-            "authorName":self.authorName.toDict(),
-            "publiYear":self.publiYear.toDict()
+            "title":self.title,
+            "authorName":self.authorName,
+            "publiYear":self.publiYear
         }
 
 

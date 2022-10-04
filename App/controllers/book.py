@@ -18,6 +18,12 @@ def get_all_book_by_title(title):
     haul = [book.toJSON() for title in books]
     return haul
 
+def get_all_books_json():
+    books = Book.query.all()
+    if not books:
+        return []
+    books = [Book.toJSON() for Book in books]
+    return books
                                 
 def get_book_by_isbn(isbn):
     return Book.query.filter_by(isbn= isbn).first()
