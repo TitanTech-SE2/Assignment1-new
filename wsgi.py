@@ -10,7 +10,8 @@ from App.controllers import (
     get_all_users, 
     add_book, 
     get_all_books_json,
-    get_all_book_by_title
+    get_all_book_by_title,
+    get_book_by_isbn
     )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
