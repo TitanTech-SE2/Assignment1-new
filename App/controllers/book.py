@@ -48,11 +48,13 @@ def get_all_author_book_by_Year(publiYear):
 
 def get_all_authors_json():
     books = Book.query.all()
+    dump = []
     if not books:
         return []
     for book in books:
-        haul = [book.authorName] #not working, only displaying last entry
-    return haul
+        haul = [book.authorName] #working now
+        dump.append(haul)
+    return dump
 
 #Not too sure about how to implement
 def update_book(ISBN):
