@@ -21,6 +21,12 @@ def book_page():
     books = get_all_books_json()
     return jsonify(books) #Jsonify might not work for some things, may have to import a new library called jsonpickle
     
+
+@book_views.route('/authors', methods=['GET'])
+def authors_page():
+    authors = get_all_authors_json()
+    return jsonify(authors)
+
 @book_views.route('/api/books')
 def client_app():
     books = get_all_books()

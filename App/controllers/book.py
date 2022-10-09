@@ -33,15 +33,16 @@ def get_book_by_Year(publiYear):
     books = Book.query.all()
     if not books:
         return []
-    haul = [book.toJSON() for publiYear in books]
-    return haul
+    haul = [book.toJSON() for authorName in books]
+    authorSort = [haul.toJSON() for publiYear in haul]
+    return authorSort
 
 
 def get_all_author_book_by_Year(publiYear):
     books = Book.query.all()
     if not books:
         return []
-    haul = [book.toJSON() for (publiYear) in books] #Need to add author name, problems occuring when using and
+    haul = [Book.toJSON() for (publiYear) in books] #Need to add author name, problems occuring when using and
     return haul
 
 
@@ -49,7 +50,8 @@ def get_all_authors_json():
     books = Book.query.all()
     if not books:
         return []
-    haul = [book.toJSON() for (authorName)  in books]
+    for book in books:
+        haul = [book.authorName] #not working, only displaying last entry
     return haul
 
 #Not too sure about how to implement
