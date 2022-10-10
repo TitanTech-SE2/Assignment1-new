@@ -16,4 +16,7 @@ class Book(db.Model):
             "publiYear":self.publiYear
         }
 
+"""     def addAuthor(self, author):
+        self.coAuthor.append(author)
 
+ """

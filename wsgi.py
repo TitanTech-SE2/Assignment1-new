@@ -1,5 +1,5 @@
 import click, pytest, sys
-from flask import Flask
+from flask import Flask, jsonify
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
@@ -15,7 +15,8 @@ from App.controllers import (
     get_book_by_Year,
     get_all_books,
     get_all_author_book_by_Year,
-    get_all_authors_json
+    get_all_authors_json,
+    add_coAuthor
     )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -95,16 +96,30 @@ book_cli = AppGroup("book", help='Book object commands')
 @click.argument("isbn")
 @click.argument("title")
 @click.argument("author")
-@click.argument("coauthor")
 @click.argument("year")
+@click.argument("coauthor")
 
-def add_book_com(isbn, title, author, coauthor, year): #For some god forsaken reason the cli commands dont work if you have a capital letter in the variable name, so remember this :(
-    add_book(isbn, title, author, coauthor, year)
+def add_book_com(isbn, title, author, year, coauthor): #For some god forsaken reason the cli commands dont work if you have a capital letter in the variable name, so remember this :(
+    add_book(isbn, title, author, year, coauthor)
     print(f'{title} added!')
 
 @book_cli.command("get-books")
 def get_books_com():
     print(get_all_books_json())
 
+@book_cli.command("get-authorBookByYear")
+@click.argument("publiYear")
+@click.argument("authorName")
+
+def get_all_author_book_by_Year_com(publiyear, authorname):
+    print(get_all_author_book_by_Year(publiyear, authorname))
+
+@book_cli.command("add_coAuthor")
+@click.argument("coauthor")
+@click.argument("isbn")
+
+def add_coAuthor_com(coauthor, isbn):
+    add_coAuthor(coauthor, isbn)
+    print(f'{coauthor} added!')
 
 app.cli.add_command(book_cli)

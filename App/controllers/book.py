@@ -1,8 +1,10 @@
 from App.models import Book, Author
 from App.database import db
 
-def add_book(isbn, title, authorName, coAuthor, publiYear):
-    newbook = Book(isbn = isbn, title = title, authorName = authorName, coAuthor = coAuthor, publiYear = publiYear)
+def add_book(isbn, title, authorName, publiYear, coAuthor):
+    newbook = Book(isbn = isbn, title = title, authorName = authorName, publiYear = publiYear, coAuthor = coAuthor)
+#  for arg in coAuthor:
+#     newbook = Book(coAuthor =  arg)
     db.session.add(newbook)
     db.session.commit()
     return newbook
@@ -38,12 +40,12 @@ def get_book_by_Year(publiYear):
     return authorSort
 
 
-def get_all_author_book_by_Year(publiYear):
+def get_all_author_book_by_Year(publiYear, authorName):
     books = Book.query.all()
     if not books:
         return []
-    haul = [Book.toJSON() for (publiYear) in books] #Need to add author name, problems occuring when using and
-    return haul
+    haul = Book.query.filter(Book.publiYear == publiYear, Book.authorName == authorName).first()
+    return ("Title: " + haul.title + "\n" + "ISBN: " + str(haul.isbn) + "\n" + "Author: " + haul.authorName + "\n" + "Co-Author/s: " + haul.coAuthor)
 
 
 def get_all_authors_json():
@@ -55,6 +57,12 @@ def get_all_authors_json():
         haul = [book.authorName] #working now
         dump.append(haul)
     return dump
+
+def add_coAuthor(coAuthor, isbn):
+    change = Book.query.filter_by(isbn = isbn).first()
+    change.coAuthor = coAuthor
+    db.session.commit()
+
 
 #Not too sure about how to implement
 def update_book(ISBN):
