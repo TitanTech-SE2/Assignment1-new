@@ -4,7 +4,7 @@ class Book(db.Model):
     isbn = db.Column('isbn', db.Integer, primary_key=True)
     title =  db.Column('title', db.String(120), nullable=False)
     authorName = db.Column('authorName', db.String(120), db.ForeignKey('author.authorName'))
-    coAuthor = db.Column('coAuthor', db.String(120), db.ForeignKey('author.coAuthor'))
+    coAuthor = db.Column('coAuthor', db.String(120), db.ForeignKey('author.authorName'))
     publiYear = db.Column(db.Integer, nullable=False)
    
     def toJSON(self):
