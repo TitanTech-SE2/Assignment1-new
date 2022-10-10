@@ -1,8 +1,8 @@
-from App.models import Book
+from App.models import Book, Author
 from App.database import db
 
-def add_book(isbn, title, authorName, publiYear):
-    newbook = Book(isbn = isbn, title = title, authorName = authorName, publiYear = publiYear)
+def add_book(isbn, title, authorName, coAuthor, publiYear):
+    newbook = Book(isbn = isbn, title = title, authorName = authorName, coAuthor = coAuthor, publiYear = publiYear)
     db.session.add(newbook)
     db.session.commit()
     return newbook

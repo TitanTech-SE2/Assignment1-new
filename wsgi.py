@@ -95,10 +95,11 @@ book_cli = AppGroup("book", help='Book object commands')
 @click.argument("isbn")
 @click.argument("title")
 @click.argument("author")
+@click.argument("coauthor")
 @click.argument("year")
 
-def add_book_com(isbn, title, author, year): #For some god forsaken reason the cli commands dont work if you have a capital letter in the variable name, so remember this :(
-    add_book(isbn, title, author, year)
+def add_book_com(isbn, title, author, coauthor, year): #For some god forsaken reason the cli commands dont work if you have a capital letter in the variable name, so remember this :(
+    add_book(isbn, title, author, coauthor, year)
     print(f'{title} added!')
 
 @book_cli.command("get-books")
