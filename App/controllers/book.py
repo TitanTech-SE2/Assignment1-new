@@ -69,6 +69,8 @@ def get_all_author_book(author):
 def specialFeature(author):
     books = Book.query.all()
     dump = []
+    x = 0
+    count = Book.query.count()
     if not books:
         return None
 
@@ -84,13 +86,14 @@ def specialFeature(author):
         for authorbook in authorbooks:
             haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
             dump.append(haul)
-
-            authorbooks = Book.query.filter_by(authorName = authorbook.coAuthor).all()
-            if not authorbooks:
-                continue
-            for authorbook in authorbooks:
-                haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
-                dump.append(haul)
+            while x <= count:
+                x = x + 1
+                authorbooks = Book.query.filter_by(authorName = authorbook.coAuthor).all()
+                if not authorbooks:
+                    continue
+                for authorbook in authorbooks:
+                    haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
+                    dump.append(haul)
                 
     if not dump:
         return None
@@ -98,6 +101,7 @@ def specialFeature(author):
 
 def get_all_authors_json():
     books = Book.query.all()
+ 
     dump = []
     sorted = []
     if not books:
