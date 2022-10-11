@@ -11,27 +11,45 @@ from App.controllers import (
   get_book_by_Year,
   get_all_author_book_by_Year,
   get_all_authors_json,
+  get_all_author_book,
+  specialFeature,
   update_book
 )
 
 book_views = Blueprint('book_views', __name__, template_folder='../templates')
 
-@book_views.route('/books', methods=['GET'])
+@book_views.route('/api/books', methods=['GET'])
 def book_page():
     books = get_all_books_json()
     return jsonify(books) #Jsonify might not work for some things, may have to import a new library called jsonpickle
     
 
-@book_views.route('/authors', methods=['GET'])
+@book_views.route('/api/books/authors', methods=['GET'])
 def authors_page():
     authors = get_all_authors_json()
     return jsonify(authors)
 
-@book_views.route('/api/books')
-def client_app():
-    books = get_all_books()
-    return books
-  
+@book_views.route('/api/books/authors/<AuthorName>', methods=['GET']) 
+def show_Author_Books(AuthorName):
+    authorBooks = get_all_author_book(AuthorName)
+    if authorBooks == None:
+      return jsonify('No books by this author!')
+    return jsonify(authorBooks)
+
+@book_views.route('/api/specialFeature/<AuthorName>', methods=['GET']) 
+def showSpecialFeature(AuthorName):
+    authorBooks = specialFeature(AuthorName)
+    if authorBooks == None:
+      return jsonify('No books by this author!')
+    return jsonify(authorBooks)
+
+@book_views.route('/api/books/<isbn>', methods=['Get'])
+def showBook(isbn):
+    response = jsonify(get_book_by_isbn(isbn))
+    if response == None:
+      return jsonify('Error: Book not found')
+    return response
+
 @book_views.route('/static/books')
 def static_book_page():
   return send_from_directory('static', 'static-book.html')

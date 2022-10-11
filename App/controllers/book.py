@@ -2,6 +2,9 @@ from App.models import Book, Author
 from App.database import db
 
 def add_book(isbn, title, authorName, publiYear, coAuthor):
+ #   dump = []
+   # for arg in coAuthor:
+  #      dump.append(coAuthor)
     newbook = Book(isbn = isbn, title = title, authorName = authorName, publiYear = publiYear, coAuthor = coAuthor)
 #  for arg in coAuthor:
 #     newbook = Book(coAuthor =  arg)
@@ -28,7 +31,10 @@ def get_all_books_json():
     return books
                                 
 def get_book_by_isbn(isbn):
-    return Book.query.filter_by(isbn= isbn).first()
+    books = Book.query.filter_by(isbn= isbn).first()
+    if not books:
+        return "Error: Book not found"
+    return books.toJSON()
 
 
 def get_book_by_Year(publiYear):
@@ -43,22 +49,69 @@ def get_book_by_Year(publiYear):
 def get_all_author_book_by_Year(publiYear, authorName):
     books = Book.query.all()
     if not books:
-        return []
+        return None
     haul = Book.query.filter(Book.publiYear == publiYear, Book.authorName == authorName).first()
     return ("Title: " + haul.title + "\n" + "ISBN: " + str(haul.isbn) + "\n" + "Author: " + haul.authorName + "\n" + "Co-Author/s: " + haul.coAuthor)
 
+def get_all_author_book(author):
+    books = Book.query.all()
+    dump = []
+    if not books:
+        return None
+    authorbooks = Book.query.filter_by(authorName = author).all()
+    for authorbook in authorbooks:
+        haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
+        dump.append(haul)
+    if not dump:
+        return None
+    return dump
+
+def specialFeature(author):
+    books = Book.query.all()
+    dump = []
+    if not books:
+        return None
+
+    authorbooks = Book.query.filter_by(authorName = author).all()
+    for authorbook in authorbooks:
+
+        haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
+        dump.append(haul)
+
+        authorbooks = Book.query.filter_by(authorName = authorbook.coAuthor).all()
+        if not authorbooks:
+            continue
+        for authorbook in authorbooks:
+            haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
+            dump.append(haul)
+
+            authorbooks = Book.query.filter_by(authorName = authorbook.coAuthor).all()
+            if not authorbooks:
+                continue
+            for authorbook in authorbooks:
+                haul = ["Title: " + authorbook.title + " " + "ISBN: " + str(authorbook.isbn) + " " + "Author: " + authorbook.authorName + " " + "Co-Author/s: " + authorbook.coAuthor]
+                dump.append(haul)
+                
+    if not dump:
+        return None
+    return dump
 
 def get_all_authors_json():
     books = Book.query.all()
     dump = []
+    sorted = []
     if not books:
-        return []
+        return None
     for book in books:
-        haul = [book.authorName] #working now
+        haul = [book.authorName] #working now, just need to search list to remove duplicates
         dump.append(haul)
-    return dump
+    sorted = []
+    for i in dump:
+        if i not in sorted:
+            sorted.append(i)
+    return sorted
 
-def add_coAuthor(coAuthor, isbn):
+def add_coAuthor(coAuthor, isbn): #not working how it's supposed to, it just replaces the author, if I try to add it will just make a string
     change = Book.query.filter_by(isbn = isbn).first()
     change.coAuthor = coAuthor
     db.session.commit()
