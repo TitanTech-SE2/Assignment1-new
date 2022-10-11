@@ -97,7 +97,11 @@ def specialFeature(author):
                 
     if not dump:
         return None
-    return dump
+    sorted = []
+    for i in dump:
+        if i not in sorted:
+            sorted.append(i)
+    return sorted
 
 def get_all_authors_json():
     books = Book.query.all()
