@@ -74,8 +74,7 @@ def myDatabase():
   returnString = data['ISBN'] + " was saved"
   return returnString
 
-                                                                                                             
-def getBooklist                                                                                                             
+                                                                                                                                                                                                                          
 @app.route('/api/books/all',methods=['GET']
 def get_Books()
   books = Book.query.all()
