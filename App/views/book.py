@@ -50,6 +50,14 @@ def showBook(isbn):
       return jsonify('Error: Book not found')
     return response
 
+@book_views.route('/api/books/createbook', methods=['POST'])  #Create book route
+@jwt_required() #remove if there's problems
+def createbook():
+  data = request.get_json()
+  add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
+  returnString = data['title'] + " added!"
+  return returnString  #try removing cause this and above line cause it might still say 'title added' even if there's an integrity error
+
 @book_views.route('/static/books')
 def static_book_page():
   return send_from_directory('static', 'static-book.html')

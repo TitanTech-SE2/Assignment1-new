@@ -2,15 +2,15 @@ from App.models import Book, Author
 from App.database import db
 
 def add_book(isbn, title, authorName, publiYear, coAuthor):
- #   dump = []
-   # for arg in coAuthor:
-  #      dump.append(coAuthor)
     newbook = Book(isbn = isbn, title = title, authorName = authorName, publiYear = publiYear, coAuthor = coAuthor)
-#  for arg in coAuthor:
-#     newbook = Book(coAuthor =  arg)
-    db.session.add(newbook)
-    db.session.commit()
-    return newbook
+    try:
+        db.session.add(newbook)
+        db.session.commit()
+    except IntegrityError: # attempted to insert a duplicate ISBN/Book
+        db.session.rollback()
+        return 'Entered ISBN already exists'
+#    return newbook 
+    return 'Book added'
 
 def get_all_books():
     return Book.query.all()
