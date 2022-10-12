@@ -63,3 +63,27 @@ def create_app(config={}):
     setup_jwt(app)
     app.app_context().push()
     return app
+ 
+@app.route('/api/books',methods=['POST'])
+@jwt_required()
+def myDatabase():   
+  data = request.get_json()
+  myBook = Book(title = data['title'], ISBN = data['ISBN'], authorName = data['authorName'], coAuhtor = data['coAuthor])
+  db.session.add(myBook)
+  db.session.commit()
+  returnString = data['ISBN'] + " was saved"
+  return returnString
+
+                                                                                                             
+def getBooklist                                                                                                             
+@app.route('/api/books/all',methods=['GET']
+def get_Books()
+  books = Book.query.all()
+  book_list = [bookes.toDict() for bookes in books]
+  return json.dumps(book_list)
+     
+
+           
+
+     
+                                                                                                             
