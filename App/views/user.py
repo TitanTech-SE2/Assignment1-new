@@ -25,7 +25,7 @@ def get_users_action():
 def create_user_action():
     data = request.json
     create_user(data['username'], data['password'])
-    return jsonify({'message': f"user {data['username']} created"})
+    return jsonify({'message': f"user {data['username']} created"}), 201
 
 
 @user_views.route('/identify', methods=['GET'])
