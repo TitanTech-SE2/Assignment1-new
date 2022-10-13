@@ -51,7 +51,7 @@ def showSpecialFeature():
       return jsonify('No books by this author!')
     return jsonify(authorBooks)
 
-@book_views.route('/api/books/<isbn>', methods=['POST'])
+@book_views.route('/api/books/', methods=['POST'])
 @jwt_required()
 
 def showBook():
