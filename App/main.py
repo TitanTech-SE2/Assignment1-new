@@ -16,8 +16,7 @@ from App.controllers import (
 
 from App.views import (
     user_views,
-    index_views,
-    book_views
+    index_views
 )
 
 # New views must be imported and added to this list
@@ -35,15 +34,18 @@ def add_views(app, views):
 
 def loadConfig(app, config):
     app.config['ENV'] = os.environ.get('ENV', 'DEVELOPMENT')
+    delta = 7
     if app.config['ENV'] == "DEVELOPMENT":
         app.config.from_object('App.config')
+        delta = app.config['JWT_EXPIRATION_DELTA']
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-        # app.config['JWT_EXPIRATION_DELTA'] =  timedelta(days=int(os.environ.get('JWT_EXPIRATION_DELTA')))
         app.config['DEBUG'] = os.environ.get('ENV').upper() != 'PRODUCTION'
         app.config['ENV'] = os.environ.get('ENV')
         delta = os.environ.get('JWT_EXPIRATION_DELTA', 7)
+        
+    app.config['JWT_EXPIRATION_DELTA'] = timedelta(days=int(delta))
         
     for key, value in config.items():
         app.config[key] = config[key]
@@ -63,11 +65,3 @@ def create_app(config={}):
     setup_jwt(app)
     app.app_context().push()
     return app
- 
-
-     
-
-           
-
-     
-                                                                                                             

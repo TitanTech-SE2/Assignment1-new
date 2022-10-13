@@ -1,4 +1,5 @@
 from App.models import Book, Author
+from sqlalchemy.exc import IntegrityError
 from App.database import db
 
 def add_book(isbn, title, authorName, publiYear, coAuthor):
