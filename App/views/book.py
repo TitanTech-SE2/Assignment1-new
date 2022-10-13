@@ -31,9 +31,10 @@ def authors_page():
 
 @book_views.route('/api/books/authors/', methods=['POST']) 
 @jwt_required()
-data = request.get_json()
-authorName =  data['authorName']
-def show_Author_Books(authorName):
+
+def show_Author_Books():
+    data = request.get_json()
+    authorName =  data['authorName']
     authorBooks = get_all_author_book(authorName)
     if authorBooks == None:
       return jsonify('No books by this author!')
@@ -41,9 +42,10 @@ def show_Author_Books(authorName):
 
 @book_views.route('/api/specialFeature/', methods=['POST']) 
 @jwt_required()
-data = request.get_json()
-authorName =  data['authorName']
-def showSpecialFeature(authorName):
+
+def showSpecialFeature():
+    data = request.get_json()
+    authorName =  data['authorName']
     authorBooks = specialFeature(authorName)
     if authorBooks == None:
       return jsonify('No books by this author!')
@@ -51,9 +53,10 @@ def showSpecialFeature(authorName):
 
 @book_views.route('/api/books/<isbn>', methods=['POST'])
 @jwt_required()
-data = request.get_json()
-isbn = data['isbn']
-def showBook(isbn):
+
+def showBook():
+    data = request.get_json()
+    isbn = data['isbn']
     response = jsonify(get_book_by_isbn(isbn))
     if response == None:
       return jsonify('Error: Book not found')
