@@ -56,7 +56,8 @@ def createbook():
   data = request.get_json()
   add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
   returnString = data['title'] + " added!"
-  return returnString  #try removing cause this and above line cause it might still say 'title added' even if there's an integrity error
+  #return returnString  #try removing cause this and above line cause it might still say 'title added' even if there's an integrity error
+  return 201
 
 @book_views.route('/static/books')
 def static_book_page():
