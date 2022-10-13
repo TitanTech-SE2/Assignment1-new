@@ -29,21 +29,30 @@ def authors_page():
     authors = get_all_authors_json()
     return jsonify(authors)
 
-@book_views.route('/api/books/authors/<AuthorName>', methods=['GET']) 
-def show_Author_Books(AuthorName):
-    authorBooks = get_all_author_book(AuthorName)
+@book_views.route('/api/books/authors/', methods=['POST']) 
+@jwt_required()
+data = request.get_json()
+authorName =  data['authorName']
+def show_Author_Books(authorName):
+    authorBooks = get_all_author_book(authorName)
     if authorBooks == None:
       return jsonify('No books by this author!')
     return jsonify(authorBooks)
 
-@book_views.route('/api/specialFeature/<AuthorName>', methods=['GET']) 
-def showSpecialFeature(AuthorName):
-    authorBooks = specialFeature(AuthorName)
+@book_views.route('/api/specialFeature/', methods=['POST']) 
+@jwt_required()
+data = request.get_json()
+authorName =  data['authorName']
+def showSpecialFeature(authorName):
+    authorBooks = specialFeature(authorName)
     if authorBooks == None:
       return jsonify('No books by this author!')
     return jsonify(authorBooks)
 
-@book_views.route('/api/books/<isbn>', methods=['Get'])
+@book_views.route('/api/books/<isbn>', methods=['POST'])
+@jwt_required()
+data = request.get_json()
+isbn = data['isbn']
 def showBook(isbn):
     response = jsonify(get_book_by_isbn(isbn))
     if response == None:
