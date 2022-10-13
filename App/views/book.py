@@ -54,10 +54,11 @@ def showBook(isbn):
 @jwt_required() #remove if there's problems
 def createbook():
   data = request.get_json()
-  add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
-  returnString = data['title'] + " added!"
-  #return returnString  #try removing cause this and above line cause it might still say 'title added' even if there's an integrity error
-  return 201
+  book = add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
+  if book:
+    returnString = data['title'] + " added!"
+    return returnString, 201  
+  return jsonify({"error": "Book not added"}), 400
 
 @book_views.route('/static/books')
 def static_book_page():
