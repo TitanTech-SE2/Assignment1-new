@@ -9,7 +9,7 @@ def add_book(isbn, title, authorName, publiYear, coAuthor):
         db.session.commit()
     except IntegrityError: # attempted to insert a duplicate ISBN/Book
         db.session.rollback()
-        return 'Entered ISBN already exists'
+        return None
 #    return newbook 
     return 'Book added'
 
