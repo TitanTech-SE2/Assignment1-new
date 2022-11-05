@@ -68,8 +68,7 @@ def createbook():
   data = request.get_json()
   book = add_book(isbn = data['isbn'], title = data['title'], authorName = data['authorName'], publiYear = data['publiYear'], coAuthor = data['coAuthor'])
   if book:
-    returnString = data['title'] + " added!"
-    return returnString, 201  
+    return jsonify({'message': f" {data['title']}  added!"}), 201  
   return jsonify({"error": "Book not added"}), 400
 
 @book_views.route('/static/books')
