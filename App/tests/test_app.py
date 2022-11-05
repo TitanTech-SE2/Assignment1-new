@@ -112,7 +112,7 @@ class BooksIntegrationTests(unittest.TestCase):
         authors = get_all_authors_json();
         self.assertListEqual([['Jarod']], authors) 
 
-    def test_get_all_books(self):
+    def test_get_all_books_json(self):
         books_json = get_all_books_json()
         self.assertListEqual([{"isbn":100, "title":"Science", "authorName":"Jarod", "publiYear": 2022, "coAuthor": "Henry"}], books_json)
 
