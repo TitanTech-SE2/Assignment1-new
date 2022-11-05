@@ -10,8 +10,8 @@ def add_book(isbn, title, authorName, publiYear, coAuthor):
     except IntegrityError: # attempted to insert a duplicate ISBN/Book
         db.session.rollback()
         return None
-#    return newbook 
-    return 'Book added'
+    return newbook 
+   # return 'Book added'
 
 def get_all_books():
     return Book.query.all()
