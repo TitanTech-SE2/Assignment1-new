@@ -127,11 +127,11 @@ class BooksIntegrationTests(unittest.TestCase):
             }
 
     def test_get_books_by_author(self):
-        authorBooks = specialFeature("Jarod")
+        authorBooks = get_all_author_book("Jarod")
         self.assertListEqual([['Title: Science ISBN: 100 Author: Jarod Co-Author/s: Henry']], authorBooks)
 
     def test_specialfeature(self):
-        authorBooks = get_all_author_book("Jarod")
+        authorBooks = specialFeature("Jarod")
         self.assertListEqual([['Title: Science ISBN: 100 Author: Jarod Co-Author/s: Henry']], authorBooks)
 
     
